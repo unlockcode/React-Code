@@ -3,14 +3,13 @@ import Navbar from "./components/Navbar";
 import TextForm from "./components/TextForm";
 import Alert from "./components/Alert";
 import React, { useState, useEffect } from "react";
-// import About from "./components/About";
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import About from "./components/About";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const [mode, setMode] = useState("light");
   const toggleMode = () => {
     setMode(mode === "light" ? "dark" : "light");
-    document.body.style.backgroundColor = mode === "light" ? "grey" : "pink";
     showAlert(
       mode === "light"
         ? "Dark mode has been enabled"
@@ -34,31 +33,38 @@ function App() {
   //and on every update
   useEffect(() => {
     document.body.style.backgroundColor = mode === "light" ? "pink" : "grey";
-    document.body.stylecolor = mode === "light" ? "white" : "white";
+    document.body.style.color = mode === "light" ? "purple" : "white";
   }, [mode]);
 
   return (
-    <div>
+    <Router>
       <Navbar
         title="TextUtils"
-        // aboutText="About us"
+        aboutText="About us"
         mode={mode}
         toggleMode={toggleMode}
       />
-      <Alert alert={alert} />
-      <div className="container my-3">
-        {/* <Routes>
-          <Route exact path="/about" element={<About />} />
-          <Route
-            exact
-            path="/"
-            element={ */}
-        <TextForm heading="Enter text to analyze below" showAlert={showAlert} />
-        {/* }
-          />
-        </Routes> */}
+      <div style={{ height: "50px" }}>
+        <Alert alert={alert} />
       </div>
-    </div>
+      <div className="container my-3">
+        {
+          <Routes>
+            <Route path="/about" element={<About />} />
+            <Route
+              path="/"
+              element={
+                <TextForm
+                  heading="Enter text to analyze below"
+                  showAlert={showAlert}
+                  mode={mode}
+                />
+              }
+            />
+          </Routes>
+        }
+      </div>
+    </Router>
   );
 }
 
