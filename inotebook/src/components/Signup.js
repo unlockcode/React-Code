@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Signup = () => {
+const Signup = (props) => {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -19,8 +19,6 @@ const Signup = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjgyNjRkMzBmY2ZiZmIzMGMwMjIwNWVlIn0sImlhdCI6MTc0NzM0MDU5Mn0.GfNmuapquxssvVHkHs5wMWtNRWLBQWwRUfLQWEsN-ho",
       },
       body: JSON.stringify({
         email: email,
@@ -34,12 +32,14 @@ const Signup = () => {
       //save the auth token and redirect
       localStorage.setItem("token", json.authToken);
       navigate("/");
+      props.showAlert("Congo! You are in!", "success");
     } else {
-      alert("Invalid credentials");
+      props.showAlert("What a bummer, some issue occured in signup", "danger");
     }
   };
   return (
-    <div className="container">
+    <div className="container mt-2">
+      <h1>Create an Account to use iNotebook</h1>
       <form onSubmit={handleSignup}>
         <div className="form-row">
           <div className="form-group col-md-6">

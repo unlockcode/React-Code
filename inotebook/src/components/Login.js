@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = (props) => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   let navigate = useNavigate();
   const handleSubmit = async (e) => {
@@ -10,8 +10,6 @@ const Login = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjgyNjRkMzBmY2ZiZmIzMGMwMjIwNWVlIn0sImlhdCI6MTc0NzM0MDU5Mn0.GfNmuapquxssvVHkHs5wMWtNRWLBQWwRUfLQWEsN-ho",
       },
       body: JSON.stringify({
         email: credentials.email,
@@ -24,8 +22,9 @@ const Login = () => {
       //save the auth token and redirect
       localStorage.setItem("token", json.authToken);
       navigate("/");
+      props.showAlert("Congo! You are in!", "success");
     } else {
-      alert("Invalid credentials");
+      props.showAlert("Dont't be hacking other people accounts", "danger");
     }
   };
 
@@ -34,7 +33,8 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="mt-3">
+      <h1>Login to continue to iNotebook</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email address</label>
